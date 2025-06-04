@@ -1,0 +1,22 @@
+// TODO: Don't be lazy, add the settings to the roof of the project @kusainovv
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.configPath": ".prettierrc",
+
+  "eslint.enable": true,
+  "eslint.experimental.useFlatConfig": true,
+  "eslint.lintTask.enable": true,
+  "eslint.validate": ["typescript", "typescriptreact", "javascript", "javascriptreact"],
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
