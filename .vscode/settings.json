@@ -7,7 +7,12 @@
   "eslint.enable": true,
   "eslint.experimental.useFlatConfig": true,
   "eslint.lintTask.enable": true,
-  "eslint.validate": ["typescript", "typescriptreact", "javascript", "javascriptreact"],
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact"
+  ],
 
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
