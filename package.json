@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "author": "",
+  "type": "module",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -14,7 +15,8 @@
     "start:prod": "node dist/main",
     "generate:prisma": "prisma generate",
     "migrate:dev": "prisma migrate dev --name init && prisma generate",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "eslint src",
+    "check": "pnpm lint && pnpm format --check && pnpm tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -27,6 +29,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@prisma/client": "6.9.0",
     "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },

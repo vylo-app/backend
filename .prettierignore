@@ -1,0 +1,21 @@
+# Node modules and build output
+node_modules
+dist
+build
+.cache
+coverage
+
+# Config files & lockfiles (optional)
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Public/static assets
+public/*
+
+# Optional: Git/IDE/system files
+.DS_Store
+*.log
+
+# TanStack
+routeTree.gen.ts
