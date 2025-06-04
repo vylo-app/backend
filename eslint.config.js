@@ -15,13 +15,14 @@ const ignores = [
   '.env.test',
   '.env.production',
   'generated',
+  'prisma',
 ];
 
 export default defineConfig([
   js.configs.recommended,
+  { ignores },
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    ignores,
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -33,7 +34,6 @@ export default defineConfig([
   pluginReact.configs.flat.recommended,
   {
     files: ['**/*.{js,ts,jsx,tsx}'],
-    ignores,
     plugins: {
       'unused-imports': unusedImports,
     },
