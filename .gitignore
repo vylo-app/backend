@@ -56,3 +56,8 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /generated/prisma
+
+
+# Shared Contract
+shared-contract/dist
+shared-contract/node_modules

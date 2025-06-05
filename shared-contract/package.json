@@ -1,0 +1,19 @@
+{
+  "name": "@your-scope/shared-contract",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "zod": "^3.25.51"
+  }
+}
