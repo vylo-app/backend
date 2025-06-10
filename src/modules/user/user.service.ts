@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '@/modules/user/dto/create-user.dto';
-import { UpdateUserDto } from '@/modules/user/dto/update-user.dto';
-import { UserRepository } from '@/modules/user/user.repository';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { UpdateUserDto } from '../user/dto/update-user.dto';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class UserService {
@@ -17,6 +17,10 @@ export class UserService {
 
   findOne(id: string) {
     return this.repo.findOne(id);
+  }
+
+  findByEmail(email: string) {
+    return this.repo.findByEmail(email);
   }
 
   update(id: string, dto: UpdateUserDto) {
