@@ -4,8 +4,8 @@ import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
-import { RegisterDto } from '../../../shared-contract/dto/auth/register.dto';
-import { LoginDto } from '../../../shared-contract/dto/auth/login.dto';
+import { SignUpDto } from '../../../shared-contract/dto/auth/sign-up.dto';
+import { SignInDto } from '../../../shared-contract/dto/auth/sign-in.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -14,7 +14,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async register(dto: RegisterDto) {
+  async signUp(dto: SignUpDto) {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
     const user = await this.userService.create({
       ...dto,
@@ -23,7 +23,7 @@ export class AuthService {
     return this.generateTokens(user.id);
   }
 
-  async login(dto: LoginDto) {
+  async signIn(dto: SignInDto) {
     const user = await this.userService.findByEmail(dto.email);
     if (!user) throw new UnauthorizedException('Invalid credentials');
 

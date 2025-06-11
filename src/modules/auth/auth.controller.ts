@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
-import { RegisterDto } from '../../../shared-contract/dto/auth/register.dto';
-import { LoginDto } from '../../../shared-contract/dto/auth/login.dto';
+import { SignUpDto } from '../../../shared-contract/dto/auth/sign-up.dto';
+import { SignInDto } from '../../../shared-contract/dto/auth/sign-in.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -13,17 +13,17 @@ export class AuthController {
     return this.authService.refresh(res);
   }
 
-  @Post('register')
-  register(@Body() dto: RegisterDto) {
-    return this.authService.register(dto);
+  @Post('sign-up')
+  signUp(@Body() dto: SignUpDto) {
+    return this.authService.signUp(dto);
   }
 
-  @Post('login')
-  async login(
-    @Body() dto: LoginDto,
+  @Post('sign-in')
+  async signIn(
+    @Body() dto: SignInDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { accessToken, refreshToken } = await this.authService.login(dto);
+    const { accessToken, refreshToken } = await this.authService.signIn(dto);
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
