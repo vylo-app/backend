@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
+import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { RegisterDto } from '../../../shared-contract/dto/auth/register.dto';
 import { LoginDto } from '../../../shared-contract/dto/auth/login.dto';
@@ -46,5 +47,21 @@ export class AuthService {
     });
 
     return { accessToken, refreshToken };
+  }
+
+  refresh(res: Response) {
+    const refreshToken = res.req.cookies?.refreshToken;
+    if (!refreshToken) throw new UnauthorizedException();
+
+    const payload = this.jwtService.verify(refreshToken, {
+      secret: process.env.REFRESH_TOKEN_SECRET,
+    });
+
+    const accessToken = this.jwtService.sign(
+      { sub: payload.sub },
+      { secret: process.env.ACCESS_TOKEN_SECRET, expiresIn: '15m' },
+    );
+
+    return { accessToken };
   }
 }

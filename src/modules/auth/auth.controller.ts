@@ -8,6 +8,11 @@ import { LoginDto } from '../../../shared-contract/dto/auth/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Post('refresh')
+  refresh(@Res({ passthrough: true }) res: Response) {
+    return this.authService.refresh(res);
+  }
+
   @Post('register')
   register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);

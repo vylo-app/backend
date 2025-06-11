@@ -1,6 +1,7 @@
 export * from './schemas/user';
 export * from './schemas/employee';
 export * from './schemas/organization';
+export * from './schemas/auth';
 
 export * from './dto/auth/login.dto';
 export * from './dto/auth/register.dto';
