@@ -8,7 +8,8 @@ export const signInSchema = z.object({
 export const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  name: z.string().min(1),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
 });
 
 export type SignInInput = z.infer<typeof signInSchema>;
