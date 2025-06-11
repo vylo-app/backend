@@ -4,12 +4,13 @@ import { UserService } from '../user/user.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
-
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private readonly jwt: JwtService,
+    private jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -18,7 +19,7 @@ export class AuthService {
       ...dto,
       password: hashedPassword,
     });
-    return this.generateToken(user.id);
+    return this.generateTokens(user.id);
   }
 
   async login(dto: LoginDto) {
@@ -28,12 +29,22 @@ export class AuthService {
     const isValid = await bcrypt.compare(dto.password, user.password);
     if (!isValid) throw new UnauthorizedException('Invalid credentials');
 
-    return this.generateToken(user.id);
+    return this.generateTokens(user.id);
   }
 
-  private generateToken(userId: string) {
+  async generateTokens(userId: string) {
     const payload = { sub: userId };
-    const accessToken = this.jwt.sign(payload);
-    return { accessToken };
+
+    const accessToken = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get('JWT_ACCESS_SECRET'),
+      expiresIn: this.configService.get('JWT_ACCESS_EXPIRES_IN'),
+    });
+
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get('JWT_REFRESH_SECRET'),
+      expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN'),
+    });
+
+    return { accessToken, refreshToken };
   }
 }
