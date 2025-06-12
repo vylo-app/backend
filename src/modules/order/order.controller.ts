@@ -5,7 +5,7 @@ import { OrderService } from './order.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('order-items')
-export class OrderController {
+export class OrderItemController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post(':productId')
