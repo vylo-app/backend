@@ -15,8 +15,19 @@ export class AuthController {
   }
 
   @Post('sign-up')
-  signUp(@Body() dto: SignUpDto) {
-    return this.authService.signUp(dto);
+  async signUp(
+    @Body() dto: SignUpDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { accessToken, refreshToken } = await this.authService.signUp(dto);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true, // TODO: true in production
+      sameSite: 'strict',
+    });
+
+    return { accessToken };
   }
 
   @Post('sign-in')
