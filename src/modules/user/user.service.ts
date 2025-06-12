@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserRepository } from '../user/user.repository';
 import { CreateUserDto } from '../../../shared-contract/dto/user/create-user.dto';
 import { UpdateUserDto } from '../../../shared-contract/dto/user/update-user.dto';
@@ -23,7 +27,14 @@ export class UserService {
     return this.repo.findByEmail(email);
   }
 
-  update(id: string, dto: UpdateUserDto) {
+  async update(id: string, dto: UpdateUserDto, currentUserId: string) {
+    if (id !== currentUserId) {
+      throw new ForbiddenException('You can only update your own profile.');
+    }
+
+    const user = await this.repo.findOne(id);
+    if (!user) throw new NotFoundException('User not found');
+
     return this.repo.update(id, dto);
   }
 
