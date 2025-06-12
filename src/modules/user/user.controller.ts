@@ -23,6 +23,18 @@ export class UserController {
     return this.userService.create(dto);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  getMe(@CurrentUserId() currentUserId: string) {
+    return this.userService.findOne(currentUserId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('me')
+  updateMe(@CurrentUserId() currentUserId: string, @Body() dto: UpdateUserDto) {
+    return this.userService.update(currentUserId, dto, currentUserId);
+  }
+
   @Get()
   findAll() {
     return this.userService.findAll();
@@ -31,16 +43,6 @@ export class UserController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @CurrentUserId() currentUserId: string,
-    @Body() dto: UpdateUserDto,
-  ) {
-    return this.userService.update(id, dto, currentUserId);
   }
 
   @Delete(':id')
