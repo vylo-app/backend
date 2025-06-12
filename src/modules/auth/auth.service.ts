@@ -2,10 +2,11 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
-import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { SignUpDto } from '../../../shared-contract/dto/auth/sign-up.dto';
 import { SignInDto } from '../../../shared-contract/dto/auth/sign-in.dto';
+import { Request } from 'express';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -49,17 +50,17 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  refresh(res: Response) {
-    const refreshToken = res.req.cookies?.refreshToken;
+  refresh(req: Request) {
+    const refreshToken = req.cookies?.refreshToken;
     if (!refreshToken) throw new UnauthorizedException();
 
     const payload = this.jwtService.verify(refreshToken, {
-      secret: process.env.REFRESH_TOKEN_SECRET,
+      secret: process.env.JWT_REFRESH_SECRET,
     });
 
     const accessToken = this.jwtService.sign(
       { sub: payload.sub },
-      { secret: process.env.ACCESS_TOKEN_SECRET, expiresIn: '15m' },
+      { secret: process.env.JWT_ACCESS_SECRET, expiresIn: '15m' },
     );
 
     return { accessToken };

@@ -11,23 +11,12 @@ export class ProductRepository {
   }
 
   findAll() {
-    return this.prisma.product.findMany({
-      include: {
-        price: true,
-        reviews: true,
-        favorites: true,
-      },
-    });
+    return this.prisma.product.findMany();
   }
 
   findById(id: string) {
     return this.prisma.product.findUnique({
       where: { id },
-      include: {
-        price: true,
-        reviews: true,
-        favorites: true,
-      },
     });
   }
 

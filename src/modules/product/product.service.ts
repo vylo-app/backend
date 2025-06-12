@@ -8,23 +8,12 @@ export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.product.findMany({
-      include: {
-        price: true,
-        reviews: true,
-        favorites: true,
-      },
-    });
+    return this.prisma.product.findMany();
   }
 
   async findById(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
-      include: {
-        price: true,
-        reviews: true,
-        favorites: true,
-      },
     });
 
     if (!product) throw new NotFoundException('Product not found');
@@ -37,7 +26,6 @@ export class ProductService {
         name: dto.name,
         description: dto.description,
       },
-      include: { price: true },
     });
   }
 
@@ -47,13 +35,7 @@ export class ProductService {
       data: {
         name: dto.name,
         description: dto.description,
-        price: dto.price
-          ? {
-              update: dto.price,
-            }
-          : undefined,
       },
-      include: { price: true },
     });
   }
 
