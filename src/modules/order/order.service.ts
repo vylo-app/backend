@@ -35,12 +35,12 @@ export class OrderService {
       throw new NotFoundException('Item not found or unauthorized');
     }
 
-    const price = productFromOrder.product.price?.price || 0;
+    // const price = productFromOrder.product.price?.price || 0;
 
     await this.repo.updateOrderAmountAndPrice(
       productFromOrder.orderId,
       -1,
-      -price,
+      -0, // price
     );
     console.log(productFromOrder);
     await this.repo.deleteOrderItem(productFromOrder?.id);

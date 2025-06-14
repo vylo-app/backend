@@ -60,7 +60,7 @@ export class OrderRepository {
       },
       include: {
         order: true,
-        product: { include: { price: true } },
+        product: true,
       },
     });
   }
