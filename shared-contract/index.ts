@@ -11,3 +11,4 @@ export * from './dto/user/create-user.dto';
 export * from './dto/user/update-user.dto';
 export * from './dto/product/create-product.dto';
 export * from './dto/product/update-product.dto';
+export * from './dto/product/create-product-review.dto';
