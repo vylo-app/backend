@@ -11,6 +11,7 @@ export const orderSchema = z.object({
   userId: z.string().uuid(),
   amount: z.number().int(),
   totalPrice: z.number(),
+  items: z.array(orderItemSchema),
 });
 
 export type Order = z.infer<typeof orderSchema>;
