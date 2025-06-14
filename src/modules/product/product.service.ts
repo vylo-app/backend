@@ -11,13 +11,33 @@ export class ProductService {
     return this.prisma.product.findMany();
   }
 
-  async findById(id: string) {
+  async findById(id: string, userId: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
     });
 
     if (!product) throw new NotFoundException('Product not found');
-    return product;
+
+    let isInCart = false;
+
+    if (userId) {
+      const order = await this.prisma.order.findFirst({
+        where: { userId },
+        include: {
+          items: {
+            where: { productId: id },
+            select: { id: true },
+          },
+        },
+      });
+
+      isInCart = !!order?.items?.length;
+    }
+
+    return {
+      ...product,
+      isInCart,
+    };
   }
 
   async create(dto: CreateProductDto) {

@@ -16,6 +16,11 @@ export const productSchema = z.object({
   description: z.string(),
 });
 
+export const productWithMetaSchema = productSchema.extend({
+  isInCart: z.boolean().optional(),
+});
+
 export type Product = z.infer<typeof productSchema>;
 export type UpdateProduct = z.infer<typeof updateProductSchema>;
 export type CreateProduct = z.infer<typeof createProductSchema>;
+export type ProductWithMeta = z.infer<typeof productWithMetaSchema>;
