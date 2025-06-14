@@ -11,12 +11,6 @@ export class OrderRepository {
     });
   }
 
-  async findProductPrice(productId: string) {
-    return this.prisma.productPrice.findUnique({
-      where: { productId },
-    });
-  }
-
   async findUserOrder(userId: string) {
     return this.prisma.order.findFirst({
       where: { userId },
@@ -56,9 +50,14 @@ export class OrderRepository {
     });
   }
 
-  async findOrderItemById(itemId: string) {
-    return this.prisma.orderItem.findUnique({
-      where: { id: itemId },
+  async findOrderItemByProduct(userId: string, productId: string) {
+    return this.prisma.orderItem.findFirst({
+      where: {
+        productId,
+        order: {
+          userId,
+        },
+      },
       include: {
         order: true,
         product: { include: { price: true } },

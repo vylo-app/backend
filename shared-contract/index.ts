@@ -3,6 +3,7 @@ export * from './schemas/employee';
 export * from './schemas/organization';
 export * from './schemas/auth';
 export * from './schemas/product';
+export * from './schemas/order';
 
 export * from './dto/auth/sign-in.dto';
 export * from './dto/auth/sign-up.dto';

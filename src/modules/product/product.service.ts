@@ -21,17 +21,15 @@ export class ProductService {
     let isInCart = false;
 
     if (userId) {
-      const order = await this.prisma.order.findFirst({
-        where: { userId },
-        include: {
-          items: {
-            where: { productId: id },
-            select: { id: true },
-          },
+      const order = await this.prisma.orderItem.findFirst({
+        where: {
+          productId: id,
+          order: { userId },
         },
+        select: { id: true },
       });
 
-      isInCart = !!order?.items?.length;
+      isInCart = !!order;
     }
 
     return {

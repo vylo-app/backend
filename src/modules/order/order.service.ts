@@ -25,16 +25,25 @@ export class OrderService {
     return { message: 'Item added to cart' };
   }
 
-  async removeFromCart(itemId: string, userId: string) {
-    const item = await this.repo.findOrderItemById(itemId);
-    if (!item || item.order.userId !== userId) {
+  async removeFromCart(userId: string, productId: string) {
+    const productFromOrder = await this.repo.findOrderItemByProduct(
+      userId,
+      productId,
+    );
+
+    if (!productFromOrder || productFromOrder.order.userId !== userId) {
       throw new NotFoundException('Item not found or unauthorized');
     }
 
-    const price = item.product.price?.price || 0;
+    const price = productFromOrder.product.price?.price || 0;
 
-    await this.repo.updateOrderAmountAndPrice(item.orderId, -1, -price);
-    await this.repo.deleteOrderItem(itemId);
+    await this.repo.updateOrderAmountAndPrice(
+      productFromOrder.orderId,
+      -1,
+      -price,
+    );
+    console.log(productFromOrder);
+    await this.repo.deleteOrderItem(productFromOrder?.id);
 
     return { message: 'Item removed from cart' };
   }

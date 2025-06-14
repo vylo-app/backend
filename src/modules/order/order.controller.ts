@@ -16,11 +16,11 @@ export class OrderItemController {
     return this.orderService.addToCart(userId, productId);
   }
 
-  @Delete(':itemId')
+  @Delete(':productId')
   removeFromCart(
-    @Param('itemId') itemId: string,
+    @Param('productId') productId: string,
     @CurrentUserId() userId: string,
   ) {
-    return this.orderService.removeFromCart(itemId, userId);
+    return this.orderService.removeFromCart(userId, productId);
   }
 }
