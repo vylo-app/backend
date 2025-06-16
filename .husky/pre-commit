@@ -1,10 +1,6 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+. "$(dirname -- "$0")/.env"
 
-if git diff --cached --name-only | grep -q '^shared-contract/'; then
-  echo "🚨 Detected changes in shared-contract! You probably need to run:"
-  echo "    make shared_contract_publish"
-  echo "⚠️  Publishing was NOT done automatically."
-fi
-
-pnpm lint-staged
+echo "🔥 Husky Pre-Commit is working"
+npx lint-staged
