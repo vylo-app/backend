@@ -1,20 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from '../../../shared-contract/dto/product/create-product.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateProductDto } from '../../../shared-contract/dto/product/update-product.dto';
+import { ProductRepository } from './product.repository';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly productRepo: ProductRepository,
+    private readonly prisma: PrismaService,
+  ) {}
 
-  async findAll() {
-    return this.prisma.product.findMany();
+  findAll() {
+    return this.productRepo.findAll();
   }
 
   async findById(id: string, userId: string) {
-    const product = await this.prisma.product.findUnique({
-      where: { id },
-    });
+    const product = await this.productRepo.findById(id);
 
     if (!product) throw new NotFoundException('Product not found');
 
@@ -32,34 +34,45 @@ export class ProductService {
       isInCart = !!order;
     }
 
+    let canReview = false;
+
+    if (userId && product.ownerId !== userId) {
+      const hasAlreadyReviewed = await this.prisma.productReview.findFirst({
+        where: {
+          productId: id,
+          userId,
+        },
+        select: { id: true },
+      });
+
+      canReview = !hasAlreadyReviewed;
+    }
+
     return {
       ...product,
       isInCart,
+      canReview,
     };
   }
 
-  async create(dto: CreateProductDto) {
-    return this.prisma.product.create({
-      data: {
-        name: dto.name,
-        description: dto.description,
+  create(userId: string, dto: CreateProductDto) {
+    return this.productRepo.create({
+      name: dto.name,
+      description: dto.description,
+      owner: {
+        connect: { id: userId },
       },
     });
   }
 
-  async update(id: string, dto: UpdateProductDto) {
-    return this.prisma.product.update({
-      where: { id },
-      data: {
-        name: dto.name,
-        description: dto.description,
-      },
+  update(id: string, dto: UpdateProductDto) {
+    return this.productRepo.update(id, {
+      name: dto.name,
+      description: dto.description,
     });
   }
 
-  async delete(id: string) {
-    return this.prisma.product.delete({
-      where: { id },
-    });
+  delete(id: string) {
+    return this.productRepo.delete(id);
   }
 }

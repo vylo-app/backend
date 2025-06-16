@@ -23,6 +23,8 @@ model User {
   favorites   Favorite[]
   credentials AuthCredential[]
 
+  products    Product[]       
+
   @@map("users")
 }
 
@@ -45,6 +47,7 @@ model Product {
   id          String            @id @default(uuid())
   name        String
   description String
+  ownerId     String          
 
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
@@ -54,6 +57,8 @@ model Product {
   orderItems  OrderItem[]
   reviews     ProductReview[]
   favorites   Favorite[]
+
+  owner       User              @relation(fields: [ownerId], references: [id]) 
 
   @@map("products")
 }

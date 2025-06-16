@@ -18,6 +18,7 @@ export const productSchema = z.object({
 
 export const productWithMetaSchema = productSchema.extend({
   isInCart: z.boolean().optional(),
+  canReview: z.boolean().optional(),
 });
 
 export const createProductReviewSchema = z.object({
@@ -42,8 +43,13 @@ export const productReviewSchema = z.object({
   }),
 });
 
+export const productReviewWithMetaSchema = productReviewSchema.extend({
+  canDelete: z.boolean().optional(),
+});
+
 export type Product = z.infer<typeof productSchema>;
 export type UpdateProduct = z.infer<typeof updateProductSchema>;
 export type CreateProduct = z.infer<typeof createProductSchema>;
 export type ProductWithMeta = z.infer<typeof productWithMetaSchema>;
 export type ProductReview = z.infer<typeof productReviewSchema>;
+export type ProductReviewWithMeta = z.infer<typeof productReviewWithMetaSchema>;
