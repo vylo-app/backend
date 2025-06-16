@@ -19,6 +19,7 @@ export const productSchema = z.object({
 export const productWithMetaSchema = productSchema.extend({
   isInCart: z.boolean().optional(),
   canReview: z.boolean().optional(),
+  canFavorited: z.boolean().optional(),
 });
 
 export const createProductReviewSchema = z.object({

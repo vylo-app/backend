@@ -3,9 +3,10 @@ import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 import { ProductRepository } from './product.repository';
+import { FavoriteModule } from '../favorites/favorite.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, FavoriteModule],
   controllers: [ProductController],
   providers: [ProductService, ProductRepository],
 })

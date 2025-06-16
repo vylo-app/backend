@@ -8,6 +8,7 @@ import { ProductModule } from './modules/product/product.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { OrderModule } from './modules/order/order.module';
 import { ProductReviewModule } from './modules/product-review/product-review.module';
+import { FavoriteModule } from './modules/favorites/favorite.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductReviewModule } from './modules/product-review/product-review.mod
     OrdersModule,
     OrderModule,
     ProductReviewModule,
+    FavoriteModule,
   ],
   controllers: [AppController],
   providers: [AppService],

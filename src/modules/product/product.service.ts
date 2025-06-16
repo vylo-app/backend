@@ -3,12 +3,14 @@ import { CreateProductDto } from '../../../shared-contract/dto/product/create-pr
 import { UpdateProductDto } from '../../../shared-contract/dto/product/update-product.dto';
 import { ProductRepository } from './product.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { FavoriteService } from '../favorites/favorite.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     private readonly productRepo: ProductRepository,
     private readonly prisma: PrismaService,
+    private readonly favoriteService: FavoriteService,
   ) {}
 
   findAll() {
@@ -48,10 +50,16 @@ export class ProductService {
       canReview = !hasAlreadyReviewed;
     }
 
+    const isFavorited = await this.favoriteService.isFavorited(
+      userId,
+      product.id,
+    );
+
     return {
       ...product,
       isInCart,
       canReview,
+      canFavorited: !isFavorited,
     };
   }
 
